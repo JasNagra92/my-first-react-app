@@ -12,6 +12,8 @@ class App extends React.Component {
     };
 
     this.fillTaskArray = this.fillTaskArray.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.setUpdate = this.setUpdate.bind(this)
   }
 
   fillTaskArray() {
@@ -22,7 +24,7 @@ class App extends React.Component {
         task: {
           text: '',
           id: uniqid(),
-          taskNumber: prevState.task.taskNumber + 1,
+          taskNumber: this.state.tasks.length + 1 ,
         },
       };
     });
@@ -39,8 +41,20 @@ class App extends React.Component {
     });
   }
 
-  removeTask(task) {
-    
+  setUpdate (text, id) {
+    this.setState({
+      tasks: this.state.tasks.map(task=>{
+        if (task.id === id){
+          task.text = text
+        } return task
+      })
+    })
+  }
+
+  handleDelete(id) {
+    this.setState({
+      tasks: this.state.tasks.filter(task => task.id !== id)
+    })
   }
 
   render() {
@@ -54,7 +68,10 @@ class App extends React.Component {
           id="taskInput"
         />
         <button onClick={this.fillTaskArray}>Submit</button>
-        <Overview tasks={tasks} />
+        <Overview 
+        tasks={tasks} 
+        handleDeleteProps={this.handleDelete}
+        handleUpdateProps={this.setUpdate} />
       </div>
     );
   }

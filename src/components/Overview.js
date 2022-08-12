@@ -1,4 +1,5 @@
 import React from 'react';
+import TodoItem from './TodoItem';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -6,17 +7,11 @@ class Overview extends React.Component {
   }
 
   render() {
-    const { tasks } = this.props;
+    const { tasks, handleDeleteProps, handleUpdateProps } = this.props;
     return (
       <ul>
-        {tasks.map(function listIterator(task) {
-          return (
-            <li key={task.id}>
-              {' '}
-              Task Number {task.taskNumber} - {task.text}
-              <button>Delete Task</button>
-            </li>
-          );
+        {tasks.map((task) => {
+          return <TodoItem key={task.id} task={task} handleDeleteProps={handleDeleteProps} handleUpdateProps={handleUpdateProps} />
         })}
       </ul>
     );
